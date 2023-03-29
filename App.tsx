@@ -1,12 +1,33 @@
 import { AppRegistry, StyleSheet } from 'react-native';
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import HomeScreen from './src/screens/LoginScreen';
+import ConversationScreen from './src/screens/ConversationScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
+
 const switchNavigator = createSwitchNavigator({
 
-  homeStack: {
+  // signUpStack: {
+  //   screen: createStackNavigator({
+  //     SignUp: SignUpScreen,
+  //   }, {
+  //     defaultNavigationOptions: {
+  //       headerShown: false
+  //     }
+  //   }),
+  // },
+  // loginStack: {
+  //   screen: createStackNavigator({
+  //     Login: LoginScreen,
+  //   }, {
+  //     defaultNavigationOptions: {
+  //       headerShown: false
+  //     }
+  //   }),
+  // },
+  conversationStack: {
     screen: createStackNavigator({
-      Home: HomeScreen,
+      Conversation: ConversationScreen,
     }, {
       defaultNavigationOptions: {
         headerShown: false

@@ -27,8 +27,8 @@ function HomeScreen() {
                 <Image style={[styles.logo]} source={require('../assets/images/logo_app.png')} alt={'logo_app'} />
             </View>
             <View>
-                <Text style={styles.signInTitle}>Sign in</Text>
-                <Text style={styles.signInDesc}>Sign in to continue to Chatvia</Text>
+                <Text style={styles.signInTitle}>Sign up</Text>
+                <Text style={styles.signInDesc}>Get your Chatvia account now</Text>
             </View>
             <View style={[styles.formSignIn]}>
                 <View>
@@ -44,10 +44,19 @@ function HomeScreen() {
                         />
                     </View>
                     <View style={styles.formField}>
-                        <View style={{ justifyContent: 'space-between', flexDirection: 'row', alignItems: 'center' }}>
-                            <Text style={[styles.labelForm]}>Password</Text>
-                            <Text style={{ color: '#7a7f9a', fontSize: 13 }}>Forgot password?</Text>
-                        </View>
+                        <Text style={[styles.labelForm]}>Username</Text>
+                        <TextInput style={[styles.inputForm]}
+                            placeholder='Enter username'
+                            placeholderTextColor={'#7a7f9a'}
+                            outlineColor='#e6ebf5'
+                            activeOutlineColor='#e6ebf5'
+                            mode='outlined'
+                            left={<TextInput.Icon icon='account' iconColor='#7a7f9a' />}
+                        />
+                    </View>
+
+                    <View style={styles.formField}>
+                        <Text style={[styles.labelForm]}>Password</Text>
                         <TextInput
                             secureTextEntry
                             style={[styles.inputForm]}
@@ -60,28 +69,14 @@ function HomeScreen() {
                             right={<TextInput.Icon onPress={() => changeIcon()} icon={icon} iconColor='#7a7f9a' />}
                         />
                     </View>
-                    <View style={[styles.formField]}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <Checkbox.Item
-                                color="#7269ef"
-                                status={status}
-                                style={{ paddingHorizontal: 0, paddingVertical: 0, marginLeft: -8 }}
-                                position='leading'
-                                label="Remember password"
-                                labelVariant='labelLarge'
 
-                                labelStyle={{ marginLeft: -4 }}
-                                uncheckedColor="#5b54bf"
-                                onPress={() => changeStatus()}
-                            />
-                        </View>
-                    </View>
-                    <Button textColor='#fff' style={[styles.btnSignIn]} onPress={() => navigate('conversationStack')}>Sign in</Button>
+                    <Button textColor='#fff' style={[styles.btnSignUp]}>Sign up</Button>
+
                 </View>
             </View>
-            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 48, marginBottom: 16 }}>
-                <Text style={{ color: '#7a7f9a', fontSize: 15 }}>Don't have an account?</Text>
-                <Pressable style={{ marginLeft: 2 }} onPress={() => navigate('signUpStack')}><Text style={{ color: '#7269ef', fontSize: 15 }}>Signup now</Text></Pressable>
+            <View style={{ flexDirection: 'row', justifyContent: 'center', marginTop: 32, marginBottom: 16 }}>
+                <Text style={{ color: '#7a7f9a', fontSize: 15 }}>Already have an account</Text>
+                <Pressable style={{ marginLeft: 2 }} onPress={() => navigate('loginStack')}><Text style={{ color: '#7269ef', fontSize: 15 }}>Sign in</Text></Pressable>
             </View>
             <Text style={{ textAlign: 'center', color: '#7a7f9a', fontSize: 15 }}>@ 2023 Chatvia. Crafted with 💓 by DreamTech</Text>
         </View >
@@ -143,7 +138,7 @@ const styles = StyleSheet.create({
         width: 15,
         height: 15
     },
-    btnSignIn: {
+    btnSignUp: {
         backgroundColor: '#7269ef',
         marginTop: 10,
         color: '#fff'
