@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BottomNavigation, Text } from "react-native-paper";
+import { BottomNavigation } from "react-native-paper";
 import ChatsRoute from "../components/modules/ChatsRoute";
 import ContactsRoute from "../components/modules/ContactsRoute";
 import GroupsRoute from "../components/modules/GroupsRoute";
