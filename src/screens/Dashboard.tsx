@@ -1,5 +1,5 @@
 import * as React from "react";
-import { BottomNavigation, Text } from "react-native-paper";
+import { BottomNavigation } from "react-native-paper";
 import ChatsRoute from "../components/modules/ChatsRoute";
 import ContactsRoute from "../components/modules/ContactsRoute";
 import GroupsRoute from "../components/modules/GroupsRoute";
@@ -9,12 +9,12 @@ import SettingsRoute from "../components/modules/SettingsRoute";
 const Dashboard = () => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
-    {
-      key: "profile",
-      title: "Profile",
-      focusedIcon: "account",
-      unfocusedIcon: "account-outline",
-    },
+    // {
+    //   key: "profile",
+    //   title: "Profile",
+    //   focusedIcon: "account",
+    //   unfocusedIcon: "account-outline",
+    // },
     {
       key: "chats",
       title: "Chats",
