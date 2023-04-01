@@ -12,31 +12,31 @@ const Dashboard = () => {
     {
       key: "profile",
       title: "Profile",
-      focusedIcon: "account",
+      focusedIcon: "account-outline",
       unfocusedIcon: "account-outline",
     },
     {
       key: "chats",
       title: "Chats",
-      focusedIcon: "chat-processing",
+      focusedIcon: "chat-processing-outline",
       unfocusedIcon: "chat-processing-outline",
     },
     {
       key: "groups",
       title: "Groups",
-      focusedIcon: "account-multiple",
+      focusedIcon: "account-multiple-outline",
       unfocusedIcon: "account-multiple-outline",
     },
     {
       key: "contacts",
       title: "Contacts",
-      focusedIcon: "contacts",
+      focusedIcon: "contacts-outline",
       unfocusedIcon: "contacts-outline",
     },
     {
       key: "settings",
       title: "Settings",
-      focusedIcon: "cog",
+      focusedIcon: "cog-outline",
       unfocusedIcon: "cog-outline",
     },
   ]);
@@ -54,6 +54,15 @@ const Dashboard = () => {
       navigationState={{ index, routes }}
       onIndexChange={setIndex}
       renderScene={renderScene}
+      barStyle={{
+        backgroundColor: "white",
+        height: 58,
+        justifyContent: "center",
+      }}
+      activeColor="#7269ef"
+      inactiveColor="#495057"
+      sceneAnimationEnabled={true}
+      sceneAnimationType="opacity"
     />
   );
 };
