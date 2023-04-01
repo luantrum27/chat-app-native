@@ -3,8 +3,10 @@ import { Pressable } from "react-native";
 import { StyleSheet, View, Image, Text } from "react-native";
 import { TextInput, Checkbox, Button } from "react-native-paper";
 import { ECheckBox } from "../interfaces/ECheckBox";
+import useNavigation from "../utils/useNavigation";
 
-function HomeScreen() {
+function LoginScreen() {
+  const { navigate } = useNavigation();
   const [icon, setIcon] = useState("eye-off");
   const [hidePassword, setHidePassword] = useState(true);
   const [status, setStatus] = useState(ECheckBox.UNCHECKED);
@@ -95,7 +97,7 @@ function HomeScreen() {
               />
             </View>
           </View>
-          <Button textColor="#fff" style={[styles.btnSignIn]}>
+          <Button textColor="#fff" style={[styles.btnSignIn]} onPress={() => navigate('dashboard')}>
             Sign in
           </Button>
         </View>
@@ -112,7 +114,7 @@ function HomeScreen() {
           Don't have an account?
         </Text>
         <Pressable style={{ marginLeft: 2 }}>
-          <Text style={{ color: "#7269ef", fontSize: 15 }}>Signup now</Text>
+          <Text style={{ color: "#7269ef", fontSize: 15 }} onPress={() => navigate('signupStack')}>Signup now</Text>
         </Pressable>
       </View>
       <Text style={{ textAlign: "center", color: "#7a7f9a", fontSize: 15 }}>
@@ -183,4 +185,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeScreen;
+export default LoginScreen;
