@@ -75,12 +75,20 @@ export default function ProfileRoute() {
               visible={visibleMenu}
               onDismiss={closeMenu}
               anchorPosition="top"
+              contentStyle={{
+                backgroundColor: "white",
+                shadowColor: "0 2px 4px rgba(15,34,58,.12)",
+                borderColor: "#f0eff5",
+                borderWidth: 1,
+              }}
               anchor={{ x: windowWidth - 140, y: 30 }}
             >
-              <Menu.Item title="Edit" />
-              <Menu.Item title="Action" />
-              <Divider />
-              <Menu.Item title="Another action" />
+              <Menu.Item style={[styles.menuItem]} title="Edit" />
+              <Menu.Item style={[styles.menuItem]} title="Action" />
+              <Divider
+                style={{ backgroundColor: "#f0eff5", marginVertical: 8 }}
+              />
+              <Menu.Item style={[styles.menuItem]} title="Another action" />
             </Menu>
           </View>
         </Provider>
@@ -99,7 +107,7 @@ export default function ProfileRoute() {
         </View>
       </View>
       <View style={[styles.contentProfile]}>
-        <Divider />
+        <Divider style={{ backgroundColor: "#f0eff5" }} />
         <Text style={[styles.contentDesc]}>
           If several languages coalesce, the grammar of the resulting language
           is more simple and regular than that of the individual.
@@ -112,6 +120,9 @@ export default function ProfileRoute() {
               borderRadius: 4,
               marginBottom: 8,
               overflow: "hidden",
+              borderColor: "#f0eff5",
+              borderWidth: 1,
+              borderStyle: "solid",
             },
             visibleAbout ? { height: 327 } : { height: 40 },
           ]}
@@ -170,7 +181,14 @@ export default function ProfileRoute() {
         <Pressable
           onPress={() => setVisibleFiles((prev) => !prev)}
           style={[
-            { backgroundColor: "white", borderRadius: 4, overflow: "hidden" },
+            {
+              backgroundColor: "white",
+              borderRadius: 4,
+              borderColor: "#f0eff5",
+              borderWidth: 1,
+              borderStyle: "solid",
+              overflow: "hidden",
+            },
             visibleFiles ? { height: 327 } : { height: 40 },
           ]}
         >
@@ -347,5 +365,10 @@ const styles = StyleSheet.create({
   contentDesc: {
     marginVertical: 24,
     color: "#7a7f9a",
+  },
+  menuItem: {
+    paddingHorizontal: 24,
+    paddingVertical: 6,
+    height: 34,
   },
 });
