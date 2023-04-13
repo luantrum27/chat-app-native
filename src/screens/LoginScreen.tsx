@@ -3,10 +3,15 @@ import { Pressable } from "react-native";
 import { StyleSheet, View, Image, Text } from "react-native";
 import { TextInput, Checkbox, Button } from "react-native-paper";
 import { ECheckBox } from "../interfaces/ECheckBox";
-import useNavigation from "../utils/useNavigation";
+import { LoginScreenNavigationProp } from "../../App";
+// import useNavigation from "../utils/useNavigation";
 
-function LoginScreen() {
-  const { navigate } = useNavigation();
+function LoginScreen({
+  navigation,
+}: {
+  navigation: LoginScreenNavigationProp;
+}) {
+  // const { navigate } = useNavigation();
   const [icon, setIcon] = useState("eye-off");
   const [hidePassword, setHidePassword] = useState(true);
   const [status, setStatus] = useState(ECheckBox.UNCHECKED);
@@ -97,7 +102,12 @@ function LoginScreen() {
               />
             </View>
           </View>
-          <Button textColor="#fff" style={[styles.btnSignIn]} onPress={() => navigate('dashboard')}>
+          <Button
+            textColor="#fff"
+            style={[styles.btnSignIn]}
+            // onPress={() => navigate("dashboard")}
+            onPress={() => navigation.navigate("Dashboard")}
+          >
             Sign in
           </Button>
         </View>
@@ -114,7 +124,13 @@ function LoginScreen() {
           Don't have an account?
         </Text>
         <Pressable style={{ marginLeft: 2 }}>
-          <Text style={{ color: "#7269ef", fontSize: 15 }} onPress={() => navigate('signupStack')}>Signup now</Text>
+          <Text
+            style={{ color: "#7269ef", fontSize: 15 }}
+            // onPress={() => navigate("signupStack")}
+            onPress={() => navigation.navigate("SignUp")}
+          >
+            Signup now
+          </Text>
         </Pressable>
       </View>
       <Text style={{ textAlign: "center", color: "#7a7f9a", fontSize: 15 }}>

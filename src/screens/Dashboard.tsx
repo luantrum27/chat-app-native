@@ -5,8 +5,13 @@ import ContactsRoute from "../components/modules/ContactsRoute";
 import GroupsRoute from "../components/modules/GroupsRoute";
 import ProfileRoute from "../components/modules/ProfileRoute";
 import SettingsRoute from "../components/modules/SettingsRoute";
+import { ChatScreenNavigationProp } from "../../App";
 
-const Dashboard = () => {
+const Dashboard = ({
+  navigation,
+}: {
+  navigation: ChatScreenNavigationProp;
+}) => {
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     {
@@ -43,7 +48,7 @@ const Dashboard = () => {
 
   const renderScene = BottomNavigation.SceneMap({
     profile: ProfileRoute,
-    chats: ChatsRoute,
+    chats: () => <ChatsRoute navigation={navigation} />,
     groups: GroupsRoute,
     contacts: ContactsRoute,
     settings: SettingsRoute,
