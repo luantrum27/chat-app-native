@@ -1,7 +1,7 @@
 import * as React from "react";
 import { BottomNavigation } from "react-native-paper";
 import ChatsRoute from "../components/modules/ChatsRoute";
-import ContactsRoute from "../components/modules/ContactsRoute";
+import NotificationsRoute from "../components/modules/NotificationsRoute";
 import GroupsRoute from "../components/modules/GroupsRoute";
 import ProfileRoute from "../components/modules/ProfileRoute";
 import SettingsRoute from "../components/modules/SettingsRoute";
@@ -27,16 +27,16 @@ const Dashboard = ({
       unfocusedIcon: "chat-processing-outline",
     },
     {
-      key: "groups",
-      title: "Groups",
-      focusedIcon: "account-multiple-outline",
-      unfocusedIcon: "account-multiple-outline",
+      key: "search",
+      title: "Search",
+      focusedIcon: "account-search-outline",
+      unfocusedIcon: "account-search-outline",
     },
     {
-      key: "contacts",
-      title: "Contacts",
-      focusedIcon: "contacts-outline",
-      unfocusedIcon: "contacts-outline",
+      key: "notifications",
+      title: "Notifications",
+      focusedIcon: "bell-outline",
+      unfocusedIcon: "bell-outline",
     },
     {
       key: "settings",
@@ -49,8 +49,8 @@ const Dashboard = ({
   const renderScene = BottomNavigation.SceneMap({
     profile: ProfileRoute,
     chats: () => <ChatsRoute navigation={navigation} />,
-    groups: GroupsRoute,
-    contacts: ContactsRoute,
+    search: GroupsRoute,
+    notifications: NotificationsRoute,
     settings: SettingsRoute,
   });
 

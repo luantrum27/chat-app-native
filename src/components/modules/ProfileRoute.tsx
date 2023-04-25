@@ -112,8 +112,7 @@ export default function ProfileRoute() {
           If several languages coalesce, the grammar of the resulting language
           is more simple and regular than that of the individual.
         </Text>
-        <Pressable
-          onPress={() => setVisibleAbout((prev) => !prev)}
+        <View
           style={[
             {
               backgroundColor: "white",
@@ -124,10 +123,11 @@ export default function ProfileRoute() {
               borderWidth: 1,
               borderStyle: "solid",
             },
-            visibleAbout ? { height: 327 } : { height: 40 },
+            visibleAbout ? { height: "auto" } : { height: 40 },
           ]}
         >
-          <View
+          <Pressable
+            onPress={() => setVisibleAbout((prev) => !prev)}
             style={{
               flexDirection: "row",
               paddingVertical: 12,
@@ -156,7 +156,7 @@ export default function ProfileRoute() {
               style={{ fontSize: 14, color: "#495057", fontWeight: "600" }}
               name="chevron-right"
             />
-          </View>
+          </Pressable>
           <View style={{ padding: 20, gap: 24 }}>
             {userInfo.map((user, index) => (
               <View key={index}>
@@ -177,9 +177,8 @@ export default function ProfileRoute() {
               </View>
             ))}
           </View>
-        </Pressable>
-        <Pressable
-          onPress={() => setVisibleFiles((prev) => !prev)}
+        </View>
+        <View
           style={[
             {
               backgroundColor: "white",
@@ -189,10 +188,11 @@ export default function ProfileRoute() {
               borderStyle: "solid",
               overflow: "hidden",
             },
-            visibleFiles ? { height: 327 } : { height: 40 },
+            visibleFiles ? { height: "auto" } : { height: 40 },
           ]}
         >
-          <View
+          <Pressable
+            onPress={() => setVisibleFiles((prev) => !prev)}
             style={{
               flexDirection: "row",
               paddingVertical: 12,
@@ -221,7 +221,7 @@ export default function ProfileRoute() {
               style={{ fontSize: 14, color: "#495057", fontWeight: "600" }}
               name="chevron-right"
             />
-          </View>
+          </Pressable>
           <View style={{ padding: 20, gap: 8 }}>
             {listAttachedFile.map((item, index) => (
               <View
@@ -298,8 +298,9 @@ export default function ProfileRoute() {
               </View>
             ))}
           </View>
-        </Pressable>
+        </View>
       </View>
+      <View style={{ height: 40 }}></View>
     </ScrollView>
   );
 }
