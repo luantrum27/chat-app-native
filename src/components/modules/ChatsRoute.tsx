@@ -43,12 +43,6 @@ export default function ChatsRoute({
           Recent
         </Text>
 
-        {/* <FlatList
-          style={{ marginTop: 20, flexGrow: 0 }}
-          data={usersOnline}
-          showsHorizontalScrollIndicator={false}
-          renderItem={({ item, index }) => <Conversation />}
-        /> */}
         {usersOnline.map((user, index) => (
           <Conversation navigation={navigation} key={index} />
         ))}
