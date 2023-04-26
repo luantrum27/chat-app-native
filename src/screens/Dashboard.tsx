@@ -2,7 +2,7 @@ import * as React from "react";
 import { BottomNavigation } from "react-native-paper";
 import ChatsRoute from "../components/modules/ChatsRoute";
 import NotificationsRoute from "../components/modules/NotificationsRoute";
-import GroupsRoute from "../components/modules/GroupsRoute";
+import SearchUserRoute from "../components/modules/SearchUserRoute";
 import ProfileRoute from "../components/modules/ProfileRoute";
 import SettingsRoute from "../components/modules/SettingsRoute";
 import { ChatScreenNavigationProp } from "../../App";
@@ -49,7 +49,7 @@ const Dashboard = ({
   const renderScene = BottomNavigation.SceneMap({
     profile: ProfileRoute,
     chats: () => <ChatsRoute navigation={navigation} />,
-    search: GroupsRoute,
+    search: SearchUserRoute,
     notifications: NotificationsRoute,
     settings: SettingsRoute,
   });
