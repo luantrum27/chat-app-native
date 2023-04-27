@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView, Pressable } from "react-native";
 import {
   Avatar,
@@ -13,19 +13,15 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import FontAwesome from "react-native-vector-icons/FontAwesome";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import { Dimensions } from "react-native";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { getUserProfile } from "../../services/user.service";
+import { getRefreshToken } from "../../utils/getToken";
+import { selectUserProfile } from "../../store/userSlice";
 
-const userInfo = [
-  {
-    title: "Name",
-    desc: "Patrica Smith",
-  },
-  { title: "Email", desc: "adc@123.com" },
-  {
-    title: "Time",
-    desc: "11:40 AM",
-  },
-  { title: "Location", desc: "California USA" },
-];
+export interface IUserInfo {
+  title: string;
+  desc: string;
+}
 
 const listAttachedFile = [
   {
@@ -53,10 +49,30 @@ const listAttachedFile = [
 export default function ProfileRoute() {
   const windowWidth = Dimensions.get("window").width;
   const [visibleMenu, setVisibleMenu] = React.useState(false);
+  const [userInfo, setUserInfo] = useState<IUserInfo[]>([])
   const [visibleAbout, setVisibleAbout] = React.useState(false);
   const [visibleFiles, setVisibleFiles] = React.useState(false);
   const openMenu = () => setVisibleMenu(true);
   const closeMenu = () => setVisibleMenu(false);
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    getUserProfile(dispatch);
+  }, [])
+  const userProfileStore = useAppSelector(selectUserProfile);
+  useEffect(() => {
+    setUserInfo([
+      {
+        title: "Name",
+        desc: userProfileStore?.username || '',
+      },
+      { title: "Email", desc: userProfileStore?.email || '' },
+      {
+        title: "Time",
+        desc: "11:40 AM",
+      },
+      { title: "Location", desc: userProfileStore?.location || "California USA" },
+    ])
+  }, [userProfileStore])
 
   return (
     <ScrollView style={[styles.container]}>
@@ -100,7 +116,7 @@ export default function ProfileRoute() {
             source={require("../../assets/images/avatar.jpg")}
           />
         </View>
-        <Text style={[styles.userInfoName]}>Patricia Smith</Text>
+        <Text style={[styles.userInfoName]}>{userProfileStore?.username}</Text>
         <View style={[styles.userInfoStatus]}>
           <View style={[styles.statusColor]} />
           <Text style={[styles.statusText]}>Active</Text>
