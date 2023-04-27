@@ -4,14 +4,14 @@ import { StyleSheet, View, Image, Text } from "react-native";
 import { TextInput, Checkbox, Button } from "react-native-paper";
 import { ECheckBox } from "../interfaces/ECheckBox";
 import { LoginScreenNavigationProp } from "../../App";
-// import useNavigation from "../utils/useNavigation";
-
+import { login } from "../services/auth.service";
+import { useAppDispatch } from "../hooks";
 function LoginScreen({
   navigation,
 }: {
   navigation: LoginScreenNavigationProp;
 }) {
-  // const { navigate } = useNavigation();
+  const dispatch = useAppDispatch()
   const [icon, setIcon] = useState("eye-off");
   const [hidePassword, setHidePassword] = useState(true);
   const [status, setStatus] = useState(ECheckBox.UNCHECKED);
@@ -25,6 +25,11 @@ function LoginScreen({
       ? setStatus(ECheckBox.UNCHECKED)
       : setStatus(ECheckBox.CHECKED);
   };
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const handleLogin = async () => {
+    login({ username, password }, navigation, dispatch)
+  }
   return (
     <View style={[styles.container]}>
       <View style={[styles.logoWrapper]}>
@@ -41,10 +46,13 @@ function LoginScreen({
       <View style={[styles.formSignIn]}>
         <View>
           <View style={styles.formField}>
-            <Text style={[styles.labelForm]}>Email</Text>
+            <Text style={[styles.labelForm]}>User</Text>
             <TextInput
+              defaultValue=""
+              onChangeText={value => setUsername(value)}
+              value={username}
               style={[styles.inputForm]}
-              placeholder="Enter email"
+              placeholder="Enter user"
               placeholderTextColor={"#7a7f9a"}
               outlineColor="#e6ebf5"
               activeOutlineColor="#e6ebf5"
@@ -66,6 +74,9 @@ function LoginScreen({
               </Text>
             </View>
             <TextInput
+              defaultValue=""
+              onChangeText={value => setPassword(value)}
+              value={password}
               secureTextEntry
               style={[styles.inputForm]}
               placeholder="Enter password"
@@ -105,8 +116,7 @@ function LoginScreen({
           <Button
             textColor="#fff"
             style={[styles.btnSignIn]}
-            // onPress={() => navigate("dashboard")}
-            onPress={() => navigation.navigate("Dashboard")}
+            onPress={handleLogin}
           >
             Sign in
           </Button>

@@ -4,9 +4,10 @@ import { StyleSheet, View, Image, Text } from "react-native";
 import { TextInput, Checkbox, Button } from "react-native-paper";
 import { ECheckBox } from "../interfaces/ECheckBox";
 import { SignUpScreenNavigationProp } from "../../App";
-// import useNavigation from "../utils/useNavigation";
-
-function LoginScreen({
+import axios from 'axios'
+import { signup } from "../services/auth.service";
+import { useAppDispatch } from "../hooks";
+function SignupScreen({
   navigation,
 }: {
   navigation: SignUpScreenNavigationProp;
@@ -25,6 +26,14 @@ function LoginScreen({
       ? setStatus(ECheckBox.UNCHECKED)
       : setStatus(ECheckBox.CHECKED);
   };
+
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
+  const handleSignUp = async () => {
+    signup({ email, username, password }, dispatch)
+  }
   return (
     <View style={[styles.container]}>
       <View style={[styles.logoWrapper]}>
@@ -43,6 +52,9 @@ function LoginScreen({
           <View style={styles.formField}>
             <Text style={[styles.labelForm]}>Email</Text>
             <TextInput
+              defaultValue=""
+              onChangeText={value => setEmail(value)}
+              value={email}
               style={[styles.inputForm]}
               placeholder="Enter email"
               placeholderTextColor={"#7a7f9a"}
@@ -55,6 +67,9 @@ function LoginScreen({
           <View style={styles.formField}>
             <Text style={[styles.labelForm]}>Username</Text>
             <TextInput
+              defaultValue=""
+              onChangeText={value => setUsername(value)}
+              value={username}
               style={[styles.inputForm]}
               placeholder="Enter username"
               placeholderTextColor={"#7a7f9a"}
@@ -75,7 +90,11 @@ function LoginScreen({
               <Text style={[styles.labelForm]}>Password</Text>
             </View>
             <TextInput
+              defaultValue=""
+
               secureTextEntry
+              onChangeText={value => setPassword(value)}
+              value={password}
               style={[styles.inputForm]}
               placeholder="Enter password"
               placeholderTextColor={"#7a7f9a"}
@@ -92,7 +111,7 @@ function LoginScreen({
               }
             />
           </View>
-          <Button textColor="#fff" style={[styles.btnSignIn]}>
+          <Button onPress={handleSignUp} textColor="#fff" style={[styles.btnSignIn]}>
             Sign up
           </Button>
         </View>
@@ -184,4 +203,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default LoginScreen;
+export default SignupScreen;

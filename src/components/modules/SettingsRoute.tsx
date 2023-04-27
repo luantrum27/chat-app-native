@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, ScrollView, Pressable } from "react-native";
 import {
   Avatar,
@@ -11,19 +11,9 @@ import {
 } from "react-native-paper";
 import Entype from "react-native-vector-icons/Entypo";
 import AntDesign from "react-native-vector-icons/AntDesign";
-
-const userInfo = [
-  {
-    title: "Name",
-    desc: "Patrica Smith",
-  },
-  { title: "Email", desc: "adc@123.com" },
-  {
-    title: "Time",
-    desc: "11:40 AM",
-  },
-  { title: "Location", desc: "California USA" },
-];
+import { IUserInfo } from "./ProfileRoute";
+import { useAppSelector } from "../../hooks";
+import { selectUserProfile } from "../../store/userSlice";
 
 const privacy = [
   "Profile photo",
@@ -42,7 +32,25 @@ export default function SettingsRoute() {
   const openStatusMenu = () => setVisibleStatusMenu(true);
   const closeStatusMenu = () => setVisibleStatusMenu(false);
   const [isEnabled, setIsEnabled] = useState(false);
+  const [userInfo, setUserInfo] = useState<IUserInfo[]>([])
+
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  const userProfileStore = useAppSelector(selectUserProfile);
+  useEffect(() => {
+    setUserInfo([
+      {
+        title: "Name",
+        desc: userProfileStore?.username || '',
+      },
+      { title: "Email", desc: userProfileStore?.email || '' },
+      {
+        title: "Time",
+        desc: "11:40 AM",
+      },
+      { title: "Location", desc: userProfileStore?.location || "California USA" },
+    ])
+  }, [userProfileStore])
+
   return (
     <View style={[styles.container]}>
       <View style={[styles.heading]}>
@@ -76,7 +84,7 @@ export default function SettingsRoute() {
             />
           </Button>
         </View>
-        <Text style={[styles.userInfoName]}>Patricia Smith</Text>
+        <Text style={[styles.userInfoName]}>{userProfileStore?.username}</Text>
         <View style={[styles.userInfoStatus]}>
           <Provider>
             <View style={{ flexDirection: "row-reverse" }}>
