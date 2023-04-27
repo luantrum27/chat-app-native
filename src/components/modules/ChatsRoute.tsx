@@ -5,39 +5,24 @@ import { usersOnline } from "../../store/users-online";
 import Conversation from "../chat/Conversation";
 import UserOnline from "../chat/UserOnline";
 import { ChatScreenNavigationProp } from "../../../App";
-import { useState } from "react";
-import { IUserItemResult } from "../../models";
-import { getUsers } from "../../services/user.service";
 
 export default function ChatsRoute({
   navigation,
 }: {
   navigation: ChatScreenNavigationProp;
 }) {
-  const [listResult, setListResult] = useState<IUserItemResult[]>([]);
-  const [keyword, setKeyword] = useState('')
-  const handleGetUsers = async (keyword: string) => {
-    try {
-      const result = await getUsers({ q: keyword });
-      setListResult(result.users);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+
   return (
     <View style={[styles.container]}>
       <Text style={[styles.title]}>Chats</Text>
       <TextInput
-        defaultValue=""
-        value={keyword}
-        onChangeText={value => setKeyword(value)}
         style={[styles.inputSearch, { marginTop: 20 }]}
         placeholder="Search messages or users"
         placeholderTextColor={"#7a7f9a"}
         outlineColor="#e6ebf5"
         activeOutlineColor="#e6ebf5"
         mode="outlined"
-        left={<TextInput.Icon onPress={() => handleGetUsers(keyword)} icon="magnify" iconColor="#7a7f9a" />}
+        left={<TextInput.Icon icon="magnify" iconColor="#7a7f9a" />}
       />
       <ScrollView>
         <FlatList

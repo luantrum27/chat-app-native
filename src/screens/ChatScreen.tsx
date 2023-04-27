@@ -24,7 +24,7 @@ export default function ChatScreen({
   }
   return (
     <View style={{ flex: 1, position: "relative" }}>
-      <View style={{ height: 72, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 32, shadowColor: '#171717', shadowOffset: { width: -2, height: 4 }, shadowOpacity: 0.2, shadowRadius: 3, }}>
+      <View style={{ height: 72, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 32, shadowColor: '#171717', shadowOffset: { width: -2, height: 4 }, shadowOpacity: 0.2, shadowRadius: 3, marginTop: 20 }}>
         <AntDesign onPress={handleBackScreen} name="left" color={'#93979C'} />
         <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', gap: 10 }}>
           <AvatarUser avatar={require("../assets/images/avt_1.jpg")} isOnline={false} />

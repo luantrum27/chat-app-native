@@ -2,6 +2,10 @@ import React from "react";
 import { Avatar, Button, Text } from "react-native-paper";
 import { StyleSheet, View } from "react-native";
 import RequestFriendItem from "../common/RequestFriendItem";
+import { getFriends } from "../../services/user.service";
+import { EFriendStatus, IFriendRequest, IUserItemResult } from "../../models";
+import { ESocketEvent } from "../../models/socket";
+import { socket } from "../../context/socket/config";
 
 export default function ContactsRoute() {
   const [active, setActive] = React.useState(true);
@@ -13,6 +17,33 @@ export default function ContactsRoute() {
   const handleBtnUnreadActive = React.useCallback(() => {
     setActive(false);
   }, [active]);
+
+  const [newFriendRequest, setNewFriendRequest] =
+    React.useState<IUserItemResult>();
+
+  const [listFriendRequest, setListFriendRequest] = React.useState<
+    IFriendRequest[]
+  >([]);
+  React.useEffect(() => {
+    const getListRequestFriend = async () => {
+      try {
+        const result = await getFriends({ status: EFriendStatus.REQUESTED });
+        setListFriendRequest(result.friends);
+        console.log(result.friends);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getListRequestFriend();
+  }, [newFriendRequest]);
+
+  React.useEffect(() => {
+    socket.on(ESocketEvent.GET_FRIEND_REQUEST, ({ user }) => {
+      console.log(user);
+
+      setNewFriendRequest(user);
+    });
+  }, []);
 
   return (
     <View style={[styles.container]}>
@@ -55,10 +86,11 @@ export default function ContactsRoute() {
         Earlier
       </Text>
       <View style={{ paddingHorizontal: 24, marginTop: 12 }}>
-        <RequestFriendItem />
-        <RequestFriendItem />
-        <RequestFriendItem />
-        <RequestFriendItem />
+        {
+          listFriendRequest.map((friendRequest, index) => (
+            <RequestFriendItem key={index} />
+          ))
+        }
       </View>
     </View>
   );
