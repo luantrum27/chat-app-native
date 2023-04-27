@@ -4,6 +4,7 @@ import ChatScreen from "./src/screens/ChatScreen";
 import Dashboard from "./src/screens/Dashboard";
 import LoginScreen from "./src/screens/LoginScreen";
 import SignUpScreen from "./src/screens/SignUpScreen";
+import VerifiAccountScreen from "./src/screens/VerifiAccountScreen";
 
 import { StackNavigationProp } from "@react-navigation/stack";
 import { Provider } from "react-redux";
@@ -15,6 +16,7 @@ type RootStackParamList = {
   Login: undefined;
   Dashboard: undefined;
   ChatScreen: undefined;
+  VerifiAccountScreen: undefined;
 };
 
 export type SignUpScreenNavigationProp = StackNavigationProp<
@@ -34,6 +36,11 @@ export type DashboardScreenNavigationProp = StackNavigationProp<
 export type ChatScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
   "ChatScreen"
+>;
+
+export type VerifiAccountNavigationProp = StackNavigationProp<
+  RootStackParamList,
+  "VerifiAccountScreen"
 >;
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -60,6 +67,11 @@ export default function App() {
               options={{ headerShown: false }}
             />
             <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ headerShown: false }} />
+            <Stack.Screen
+          name="VerifiAccountScreen"
+          component={VerifiAccountScreen}
+          options={{ headerShown: false }}
+        />
           </Stack.Navigator>
         </NavigationContainer>
       </PersistGate>
