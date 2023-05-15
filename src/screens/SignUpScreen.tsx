@@ -4,7 +4,7 @@ import { StyleSheet, View, Image, Text } from "react-native";
 import { TextInput, Checkbox, Button } from "react-native-paper";
 import { ECheckBox } from "../interfaces/ECheckBox";
 import { SignUpScreenNavigationProp } from "../../App";
-import axios from 'axios'
+import axios from "axios";
 import { signup } from "../services/auth.service";
 import { useAppDispatch } from "../hooks";
 function SignupScreen({
@@ -18,8 +18,8 @@ function SignupScreen({
   const [status, setStatus] = useState(ECheckBox.UNCHECKED);
   const changeIcon = () => {
     icon !== "eye-off"
-      ? (setIcon("eye-off"), setHidePassword(false))
-      : (setIcon("eye"), setHidePassword(true));
+      ? (setIcon("eye-off"), setHidePassword(true))
+      : (setIcon("eye"), setHidePassword(false));
   };
   const changeStatus = () => {
     status !== ECheckBox.UNCHECKED
@@ -27,13 +27,13 @@ function SignupScreen({
       : setStatus(ECheckBox.CHECKED);
   };
 
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
   const handleSignUp = async () => {
-    signup({ email, username, password }, dispatch)
-  }
+    signup({ email, username, password }, dispatch);
+  };
   return (
     <View style={[styles.container]}>
       <View style={[styles.logoWrapper]}>
@@ -52,8 +52,7 @@ function SignupScreen({
           <View style={styles.formField}>
             <Text style={[styles.labelForm]}>Email</Text>
             <TextInput
-              defaultValue=""
-              onChangeText={value => setEmail(value)}
+              onChangeText={(value) => setEmail(value)}
               value={email}
               style={[styles.inputForm]}
               placeholder="Enter email"
@@ -67,8 +66,7 @@ function SignupScreen({
           <View style={styles.formField}>
             <Text style={[styles.labelForm]}>Username</Text>
             <TextInput
-              defaultValue=""
-              onChangeText={value => setUsername(value)}
+              onChangeText={(value) => setUsername(value)}
               value={username}
               style={[styles.inputForm]}
               placeholder="Enter username"
@@ -90,10 +88,8 @@ function SignupScreen({
               <Text style={[styles.labelForm]}>Password</Text>
             </View>
             <TextInput
-              defaultValue=""
-
-              secureTextEntry
-              onChangeText={value => setPassword(value)}
+              secureTextEntry={hidePassword}
+              onChangeText={(value) => setPassword(value)}
               value={password}
               style={[styles.inputForm]}
               placeholder="Enter password"
@@ -111,7 +107,11 @@ function SignupScreen({
               }
             />
           </View>
-          <Button onPress={handleSignUp} textColor="#fff" style={[styles.btnSignIn]}>
+          <Button
+            onPress={handleSignUp}
+            textColor="#fff"
+            style={[styles.btnSignIn]}
+          >
             Sign up
           </Button>
         </View>

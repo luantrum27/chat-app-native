@@ -11,25 +11,26 @@ function LoginScreen({
 }: {
   navigation: LoginScreenNavigationProp;
 }) {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const [icon, setIcon] = useState("eye-off");
   const [hidePassword, setHidePassword] = useState(true);
   const [status, setStatus] = useState(ECheckBox.UNCHECKED);
   const changeIcon = () => {
     icon !== "eye-off"
-      ? (setIcon("eye-off"), setHidePassword(false))
-      : (setIcon("eye"), setHidePassword(true));
+      ? (setIcon("eye-off"), setHidePassword(true))
+      : (setIcon("eye"), setHidePassword(false));
+    console.log(hidePassword);
   };
   const changeStatus = () => {
     status !== ECheckBox.UNCHECKED
       ? setStatus(ECheckBox.UNCHECKED)
       : setStatus(ECheckBox.CHECKED);
   };
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const handleLogin = async () => {
-    login({ username, password }, navigation, dispatch)
-  }
+    login({ username, password }, navigation, dispatch);
+  };
   return (
     <View style={[styles.container]}>
       <View style={[styles.logoWrapper]}>
@@ -48,8 +49,7 @@ function LoginScreen({
           <View style={styles.formField}>
             <Text style={[styles.labelForm]}>User</Text>
             <TextInput
-              defaultValue=""
-              onChangeText={value => setUsername(value)}
+              onChangeText={(value) => setUsername(value)}
               value={username}
               style={[styles.inputForm]}
               placeholder="Enter user"
@@ -74,10 +74,9 @@ function LoginScreen({
               </Text>
             </View>
             <TextInput
-              defaultValue=""
-              onChangeText={value => setPassword(value)}
+              onChangeText={(value) => setPassword(value)}
               value={password}
-              secureTextEntry
+              secureTextEntry={hidePassword}
               style={[styles.inputForm]}
               placeholder="Enter password"
               placeholderTextColor={"#7a7f9a"}
