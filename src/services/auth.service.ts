@@ -20,7 +20,6 @@ export const login = async ({username, password}: IUserLogin, navigation: any, d
             username,
             password,
         }
-        console.log(user);
         
         const request = await apiRequest.post('auth/login', user);
         dispatch(loginSuccess())

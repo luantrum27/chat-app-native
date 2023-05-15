@@ -2,6 +2,7 @@ import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer, persistStore } from "redux-persist";
 import authReducer from './authSlice';
 import userReducer from './userSlice';
+import conversationReducer from './conversationSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const loginPersistConfig = {
@@ -13,6 +14,7 @@ const loginPersistConfig = {
 const rootReducer = combineReducers({
     auth: persistReducer(loginPersistConfig, authReducer),
     user: userReducer,
+    conversation: conversationReducer,
 
 });
 const store = configureStore({

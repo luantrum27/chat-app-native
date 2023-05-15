@@ -6,6 +6,10 @@ import SearchUserRoute from "../components/modules/SearchUserRoute";
 import ProfileRoute from "../components/modules/ProfileRoute";
 import SettingsRoute from "../components/modules/SettingsRoute";
 import { ChatScreenNavigationProp } from "../../App";
+import { socket } from "../context/socket/config";
+import { ESocketEvent } from "../models/socket";
+import { useAppSelector } from "../hooks";
+import { selectUserProfile } from "../store/userSlice";
 
 const Dashboard = ({
   navigation,
@@ -53,6 +57,23 @@ const Dashboard = ({
     notifications: NotificationsRoute,
     settings: SettingsRoute,
   });
+  const userProfileStore = useAppSelector(selectUserProfile)
+  React.useEffect(() => {
+    socket.connect();
+    socket.on(ESocketEvent.CONNECT, () => {
+      console.log('connected');
+    });
+
+
+    socket.on(ESocketEvent.DISCONNECT, () => {
+      console.log('disconnected');
+    });
+
+    return () => {
+      socket.close();
+      socket.removeAllListeners();
+    };
+  }, []);
 
   return (
     <BottomNavigation

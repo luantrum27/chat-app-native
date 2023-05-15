@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import apiRequest from "../api/apiRequest";
 import { IGetUsersQuery, TGetFriendsQuery } from "../models";
 import { AppDispatch } from "../store";
@@ -9,6 +10,7 @@ export const getUserProfile = async (dispatch: AppDispatch) => {
     const res = await apiRequest.get('users/profile');
     
     dispatch(getProfileSuccess(res.data));
+    await AsyncStorage.setItem('userId', res.data.id)
   } catch (err) {
     dispatch(getProfileFailed());
   }

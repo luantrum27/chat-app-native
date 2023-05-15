@@ -17,6 +17,9 @@ import { useAppDispatch, useAppSelector } from "../../hooks";
 import { getUserProfile } from "../../services/user.service";
 import { getRefreshToken } from "../../utils/getToken";
 import { selectUserProfile } from "../../store/userSlice";
+import { socket } from "../../context/socket/config";
+import { ESocketEvent } from "../../models/socket";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export interface IUserInfo {
   title: string;
@@ -55,10 +58,17 @@ export default function ProfileRoute() {
   const openMenu = () => setVisibleMenu(true);
   const closeMenu = () => setVisibleMenu(false);
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    getUserProfile(dispatch);
-  }, [])
   const userProfileStore = useAppSelector(selectUserProfile);
+  useEffect(() => {
+
+    getUserProfile(dispatch);
+    const setOnline = async () => {
+      const userId = await AsyncStorage.getItem('userId')
+      socket.emit(ESocketEvent.ONLINE, { userId });
+    }
+    setOnline()
+  }, [])
+
   useEffect(() => {
     setUserInfo([
       {

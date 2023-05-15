@@ -29,7 +29,6 @@ export default function ContactsRoute() {
       try {
         const result = await getFriends({ status: EFriendStatus.REQUESTED });
         setListFriendRequest(result.friends);
-        console.log(result.friends);
       } catch (err) {
         console.log(err);
       }
@@ -39,8 +38,6 @@ export default function ContactsRoute() {
 
   React.useEffect(() => {
     socket.on(ESocketEvent.GET_FRIEND_REQUEST, ({ user }) => {
-      console.log(user);
-
       setNewFriendRequest(user);
     });
   }, []);
@@ -88,7 +85,7 @@ export default function ContactsRoute() {
       <View style={{ paddingHorizontal: 24, marginTop: 12 }}>
         {
           listFriendRequest.map((friendRequest, index) => (
-            <RequestFriendItem key={index} />
+            <RequestFriendItem {...friendRequest} key={index} />
           ))
         }
       </View>

@@ -5,13 +5,85 @@ import { usersOnline } from "../../store/users-online";
 import Conversation from "../chat/Conversation";
 import UserOnline from "../chat/UserOnline";
 import { ChatScreenNavigationProp } from "../../../App";
+import { useCallback, useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../hooks";
+import { getConversation, getMessages } from "../../services/conversation.service";
+import { EFriendStatus, IConversation, IFriendAccept } from "../../models";
+import { getListMessageFailed, getListMessageStart, getListMessageSuccess, selectConversation, selectMessages, updateConversationSelected, updateListConversation, updateListMessage } from "../../store/conversationSlice";
+import { deleteFriendSelected } from "../../store/userSlice";
+import { getFriends } from "../../services/user.service";
+import { socket } from "../../context/socket/config";
+import { ESocketEvent } from "../../models/socket";
 
 export default function ChatsRoute({
   navigation,
 }: {
   navigation: ChatScreenNavigationProp;
 }) {
+  const { listMessage } = useAppSelector(selectMessages);
+  const dispatch = useAppDispatch();
+  const [activeConversation, setActiveConversation] = useState('');
+  const [clickConversation, setClickConversation] =
+    useState<boolean>(false);
+  useEffect(() => {
+    const newListMessage = [...listMessage];
+    newListMessage.forEach((message, index) => {
+      if (message.sender.id !== newListMessage[index + 1]?.sender.id) {
+        newListMessage[index] = Object.assign({}, newListMessage[index], {
+          isLastOne: true,
+        });
+      }
+    });
+    dispatch(updateListMessage(newListMessage));
+  }, [clickConversation]);
+  const [listFriend, setListFriend] = useState<
+    IFriendAccept[]
+  >([]);
+  const { listConversation, selectedConversation } =
+    useAppSelector(selectConversation);
+  useEffect(() => {
+    const getListConvertion = async () => {
+      const res = await getConversation();
+      dispatch(updateListConversation(res.conversations));
+    };
+    getListConvertion();
+  }, []);
+  useEffect(() => {
+    const getListFriend = async () => {
+      try {
+        const result = await getFriends({ status: EFriendStatus.ACCEPTED });
+        setListFriend(result.friends);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    getListFriend();
+  }, []);
+  useEffect(() => {
+    listFriend.forEach((friend, index) => {
+      console.log(friend);
+      socket.emit('join', { friend })
+    })
+  }, [listFriend])
 
+  const handleClick = async (conversation: IConversation) => {
+    dispatch(updateConversationSelected(conversation));
+    setActiveConversation('active');
+    dispatch(deleteFriendSelected());
+    dispatch(getListMessageStart());
+    try {
+      const result = await getMessages({ id: conversation.id });
+      dispatch(getListMessageSuccess(result.messages));
+      dispatch(updateConversationSelected(conversation));
+      setClickConversation((prev) => !prev);
+    } catch (err) {
+      dispatch(getListMessageFailed());
+    }
+  };
+
+  const onHandleClick = useCallback((conversation: IConversation) => {
+    return () => handleClick(conversation);
+  }, []);
   return (
     <View style={[styles.container]}>
       <Text style={[styles.title]}>Chats</Text>
@@ -28,9 +100,9 @@ export default function ChatsRoute({
         <FlatList
           style={{ marginTop: 20, flexGrow: 0 }}
           horizontal
-          data={usersOnline}
+          data={listFriend}
           showsHorizontalScrollIndicator={false}
-          renderItem={({ item, index }) => <UserOnline key={index} {...item} />}
+          renderItem={({ item, index }) => <UserOnline navigation={navigation} key={index} friendRequest={item} />}
         />
         <Text
           style={{
@@ -43,9 +115,8 @@ export default function ChatsRoute({
         >
           Recent
         </Text>
-
-        {usersOnline.map((user, index) => (
-          <Conversation navigation={navigation} key={index} />
+        {listConversation.map((conversation, index) => (
+          <Conversation navigation={navigation} key={index} conversation={conversation} />
         ))}
       </ScrollView>
     </View>
@@ -69,3 +140,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
   },
 });
+
+

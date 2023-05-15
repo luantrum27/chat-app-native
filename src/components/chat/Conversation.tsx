@@ -3,18 +3,15 @@ import { View, Pressable } from "react-native";
 import { Text } from "react-native-paper";
 import AvatarUser from "../common/AvatarUser";
 import { ChatScreenNavigationProp } from "../../../App";
-// import useNavigation from "../../utils/useNavigation";
-
-export default function Conversation({
-  navigation,
-}: {
+import { IConversation } from "../../models";
+interface IProps {
   navigation: ChatScreenNavigationProp;
-}) {
-  // const { navigate } = useNavigation();
+  conversation: IConversation;
+}
+export default function Conversation(props: IProps) {
   return (
     <Pressable
-      // onPress={() => navigate("chatScreen")}
-      onPress={() => navigation.navigate("ChatScreen")}
+      onPress={() => props.navigation.navigate("ChatScreen", props.conversation)}
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
@@ -30,7 +27,7 @@ export default function Conversation({
           <Text
             style={{ fontWeight: "700", color: "#495057", marginBottom: 5 }}
           >
-            Patrick Hendricks
+            {props.conversation.title}
           </Text>
           <Text style={{ color: "#7a7f9a" }}>okey sure 😅📢</Text>
         </View>

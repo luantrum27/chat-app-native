@@ -10,6 +10,7 @@ interface IProps {
 }
 
 function Message({ message, isMyMessage }: IProps) {
+
     return (
         <View style={[{ display: 'flex', flexDirection: "row", alignItems: 'center', gap: 15 }, isMyMessage && { justifyContent: 'flex-start', flexDirection: 'row-reverse' }]}>
             <AvatarUser avatar={require("../../assets/images/avt_1.jpg")} isOnline={false} />
