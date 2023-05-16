@@ -4,7 +4,7 @@ import { getRefreshToken } from "../utils/getToken";
 // const token = await getRefreshToken();
 
 const apiRequest = axios.create({
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: 'http://192.168.1.14:8000/api/',
     headers: {
             'Content-Type': 'application/json',
     }

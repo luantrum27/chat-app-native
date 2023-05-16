@@ -41,7 +41,6 @@ export type ChatScreenNavigationProp = StackNavigationProp<
 
 export type ChatScreenRouteProp = RouteProp<RootStackParamList, "ChatScreen">;
 
-
 export type VerifiAccountNavigationProp = StackNavigationProp<
   RootStackParamList,
   "VerifiAccountScreen"
@@ -54,7 +53,7 @@ export default function App() {
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <NavigationContainer>
-          <Stack.Navigator >
+          <Stack.Navigator>
             <Stack.Screen
               name="SignUp"
               component={SignUpScreen}
@@ -70,7 +69,11 @@ export default function App() {
               component={Dashboard}
               options={{ headerShown: false }}
             />
-            <Stack.Screen name="ChatScreen" component={ChatScreen} options={{ headerShown: false }} />
+            <Stack.Screen
+              name="ChatScreen"
+              component={ChatScreen}
+              options={{ headerShown: false }}
+            />
             <Stack.Screen
               name="VerifiAccountScreen"
               component={VerifiAccountScreen}

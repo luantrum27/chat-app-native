@@ -6,8 +6,15 @@ import { ECheckBox } from "../interfaces/ECheckBox";
 import { LoginScreenNavigationProp } from "../../App";
 import { login } from "../services/auth.service";
 import { useAppDispatch } from "../hooks";
+import { getAccessToken } from "../utils/getToken";
+import * as authService from "../services/auth.service";
+import { getUserProfile } from "../services/user.service";
+import { socket } from "../context/socket/config";
+import { ESocketEvent } from "../models/socket";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 function LoginScreen({
-  navigation,
+  navigation
 }: {
   navigation: LoginScreenNavigationProp;
 }) {
@@ -15,12 +22,37 @@ function LoginScreen({
   const [icon, setIcon] = useState("eye-off");
   const [hidePassword, setHidePassword] = useState(true);
   const [status, setStatus] = useState(ECheckBox.UNCHECKED);
+
   const changeIcon = () => {
     icon !== "eye-off"
       ? (setIcon("eye-off"), setHidePassword(true))
       : (setIcon("eye"), setHidePassword(false));
     console.log(hidePassword);
   };
+
+  // React.useEffect(() => {
+  //   const handleLoginWhenRemember = async () => {
+  //     const accessToken = getAccessToken();
+
+  //     if (!accessToken) return;
+
+  //     try {
+  //       const isActivated: boolean = await authService.checkUserActivate();
+
+  //       if (!isActivated) {
+  //         navigation.navigate("VerifiAccountScreen");
+  //         return;
+  //       }
+
+  //       navigation.navigate("Dashboard");
+  //     } catch (err) {
+  //       // do something
+  //     }
+  //   };
+
+  //   handleLoginWhenRemember();
+  // }, []);
+
   const changeStatus = () => {
     status !== ECheckBox.UNCHECKED
       ? setStatus(ECheckBox.UNCHECKED)
@@ -30,6 +62,12 @@ function LoginScreen({
   const [password, setPassword] = useState("");
   const handleLogin = async () => {
     login({ username, password }, navigation, dispatch);
+    getUserProfile(dispatch);
+    const setOnline = async () => {
+      const userId = await AsyncStorage.getItem("userId");
+      socket.emit(ESocketEvent.ONLINE, { userId });
+    };
+    setOnline();
   };
   return (
     <View style={[styles.container]}>

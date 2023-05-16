@@ -12,7 +12,6 @@ function SignupScreen({
 }: {
   navigation: SignUpScreenNavigationProp;
 }) {
-  // const { navigate } = useNavigation();
   const [icon, setIcon] = useState("eye-off");
   const [hidePassword, setHidePassword] = useState(true);
   const [status, setStatus] = useState(ECheckBox.UNCHECKED);
@@ -32,7 +31,7 @@ function SignupScreen({
   const [password, setPassword] = useState("");
   const dispatch = useAppDispatch();
   const handleSignUp = async () => {
-    signup({ email, username, password }, dispatch);
+    signup({ email, username, password }, navigation, dispatch);
   };
   return (
     <View style={[styles.container]}>

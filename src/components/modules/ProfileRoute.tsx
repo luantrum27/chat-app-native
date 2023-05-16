@@ -15,11 +15,18 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 import { Dimensions } from "react-native";
 import { useAppDispatch, useAppSelector } from "../../hooks";
 import { getUserProfile } from "../../services/user.service";
-import { getRefreshToken } from "../../utils/getToken";
-import { selectUserProfile } from "../../store/userSlice";
+import {
+  deleteFriendSelected,
+  deleteUserProfile,
+  selectUserProfile,
+} from "../../store/userSlice";
 import { socket } from "../../context/socket/config";
 import { ESocketEvent } from "../../models/socket";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { logout } from "../../services/auth.service";
+import { logoutSuccess } from "../../store/authSlice";
+import { deleteConversationSelected } from "../../store/conversationSlice";
+import { LoginScreenNavigationProp } from "../../../App";
 
 export interface IUserInfo {
   title: string;
@@ -52,7 +59,7 @@ const listAttachedFile = [
 export default function ProfileRoute() {
   const windowWidth = Dimensions.get("window").width;
   const [visibleMenu, setVisibleMenu] = React.useState(false);
-  const [userInfo, setUserInfo] = useState<IUserInfo[]>([])
+  const [userInfo, setUserInfo] = useState<IUserInfo[]>([]);
   const [visibleAbout, setVisibleAbout] = React.useState(false);
   const [visibleFiles, setVisibleFiles] = React.useState(false);
   const openMenu = () => setVisibleMenu(true);
@@ -60,29 +67,40 @@ export default function ProfileRoute() {
   const dispatch = useAppDispatch();
   const userProfileStore = useAppSelector(selectUserProfile);
   useEffect(() => {
-
     getUserProfile(dispatch);
     const setOnline = async () => {
-      const userId = await AsyncStorage.getItem('userId')
+      const userId = await AsyncStorage.getItem("userId");
       socket.emit(ESocketEvent.ONLINE, { userId });
-    }
-    setOnline()
-  }, [])
+    };
+    setOnline();
+  }, []);
 
   useEffect(() => {
     setUserInfo([
       {
         title: "Name",
-        desc: userProfileStore?.username || '',
+        desc: userProfileStore?.username || "",
       },
-      { title: "Email", desc: userProfileStore?.email || '' },
+      { title: "Email", desc: userProfileStore?.email || "" },
       {
         title: "Time",
         desc: "11:40 AM",
       },
-      { title: "Location", desc: userProfileStore?.location || "California USA" },
-    ])
-  }, [userProfileStore])
+      {
+        title: "Location",
+        desc: userProfileStore?.location || "California USA",
+      },
+    ]);
+  }, [userProfileStore]);
+
+  const handleLogout = async () => {
+    await logout();
+    dispatch(logoutSuccess());
+    dispatch(deleteUserProfile());
+    dispatch(deleteFriendSelected());
+    dispatch(deleteConversationSelected());
+    // navigation.navigate("Login");
+  };
 
   return (
     <ScrollView style={[styles.container]}>
@@ -114,7 +132,13 @@ export default function ProfileRoute() {
               <Divider
                 style={{ backgroundColor: "#f0eff5", marginVertical: 8 }}
               />
-              <Menu.Item style={[styles.menuItem]} title="Another action" />
+              <Menu.Item
+                style={[styles.menuItem]}
+                title="Logout"
+                onPress={() => {
+                  handleLogout();
+                }}
+              />
             </Menu>
           </View>
         </Provider>

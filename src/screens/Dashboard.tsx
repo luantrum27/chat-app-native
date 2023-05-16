@@ -5,7 +5,7 @@ import NotificationsRoute from "../components/modules/NotificationsRoute";
 import SearchUserRoute from "../components/modules/SearchUserRoute";
 import ProfileRoute from "../components/modules/ProfileRoute";
 import SettingsRoute from "../components/modules/SettingsRoute";
-import { ChatScreenNavigationProp } from "../../App";
+import { ChatScreenNavigationProp, LoginScreenNavigationProp } from "../../App";
 import { socket } from "../context/socket/config";
 import { ESocketEvent } from "../models/socket";
 import { useAppSelector } from "../hooks";
@@ -57,16 +57,15 @@ const Dashboard = ({
     notifications: NotificationsRoute,
     settings: SettingsRoute,
   });
-  const userProfileStore = useAppSelector(selectUserProfile)
+  const userProfileStore = useAppSelector(selectUserProfile);
   React.useEffect(() => {
     socket.connect();
     socket.on(ESocketEvent.CONNECT, () => {
-      console.log('connected');
+      console.log("connected");
     });
 
-
     socket.on(ESocketEvent.DISCONNECT, () => {
-      console.log('disconnected');
+      console.log("disconnected");
     });
 
     return () => {
