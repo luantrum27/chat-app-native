@@ -62,7 +62,7 @@ function LoginScreen({
   const [password, setPassword] = useState("");
   const handleLogin = async () => {
     login({ username, password }, navigation, dispatch);
-    getUserProfile(dispatch);
+    await getUserProfile(dispatch);
     const setOnline = async () => {
       const userId = await AsyncStorage.getItem("userId");
       socket.emit(ESocketEvent.ONLINE, { userId });

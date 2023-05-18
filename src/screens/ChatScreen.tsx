@@ -30,7 +30,7 @@ import { selectFriend } from "../store/userSlice";
 import { createConversation } from "../services/conversation.service";
 import { ESocketEvent } from "../models/socket";
 interface IMessageInfor {
-  messages: IMessage[] | [];
+  messages: IMessage[];
   count: Number;
 }
 export default function ChatScreen({
@@ -185,10 +185,10 @@ export default function ChatScreen({
           {messages?.messages
             .slice()
             .reverse()
-            .map(({ id, sender, message}: IMessage) => {
+            .map(({ id, sender, message, createdAt}: IMessage) => {
               const isMyMessage = sender.id === useProfileStore?.id;
               return (
-                <Message key={id} message={message} isMyMessage={isMyMessage}/>
+                <Message key={id} message={message} isMyMessage={isMyMessage} time={createdAt}/>
               );
             })}
         </View>

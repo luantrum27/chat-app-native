@@ -7,9 +7,17 @@ import AntDesign from "react-native-vector-icons/AntDesign";
 interface IProps {
   message: string;
   isMyMessage: boolean;
+  time: string;
 }
 
-function Message({ message, isMyMessage }: IProps) {
+function Message({ message, isMyMessage, time }: IProps) {
+  const date = new Date(time);
+  const hours = date.getHours();
+  let minutes: string | number = date.getMinutes();
+  if (minutes < 10) {
+    minutes = `0${minutes}`;
+  }
+  const Time = `${hours}:${minutes}`;
   return (
     <View
       style={[
@@ -63,7 +71,7 @@ function Message({ message, isMyMessage }: IProps) {
           ]}
         >
           <AntDesign name="clockcircleo" color={"#333"} />
-          <Text style={{ color: "#333" }}>10:31</Text>
+          <Text style={{ color: "#333" }}>{Time}</Text>
         </View>
       </View>
     </View>

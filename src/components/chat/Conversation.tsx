@@ -7,11 +7,15 @@ import { IConversation } from "../../models";
 interface IProps {
   navigation: ChatScreenNavigationProp;
   conversation: IConversation;
+  changeConversation: React.Dispatch<React.SetStateAction<boolean>>;
 }
 export default function Conversation(props: IProps) {
   return (
     <Pressable
-      onPress={() => props.navigation.navigate("ChatScreen", props.conversation)}
+      onPress={() => {
+        props.changeConversation(prev => !prev)
+        props.navigation.navigate("ChatScreen", props.conversation)
+      }}
       style={{
         flexDirection: "row",
         justifyContent: "space-between",

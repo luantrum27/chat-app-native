@@ -25,6 +25,8 @@ export default function ChatsRoute({
   const [activeConversation, setActiveConversation] = useState('');
   const [clickConversation, setClickConversation] =
     useState<boolean>(false);
+  const [changeConversation, setChangeConversation] = useState(false);
+  
   useEffect(() => {
     const newListMessage = [...listMessage];
     newListMessage.forEach((message, index) => {
@@ -39,6 +41,7 @@ export default function ChatsRoute({
   const [listFriend, setListFriend] = useState<
     IFriendAccept[]
   >([]);
+
   const { listConversation, selectedConversation } =
     useAppSelector(selectConversation);
   useEffect(() => {
@@ -46,8 +49,9 @@ export default function ChatsRoute({
       const res = await getConversation();
       dispatch(updateListConversation(res.conversations));
     };
+
     getListConvertion();
-  }, []);
+  }, [changeConversation]);
   useEffect(() => {
     const getListFriend = async () => {
       try {
@@ -116,7 +120,7 @@ export default function ChatsRoute({
           Recent
         </Text>
         {listConversation.map((conversation, index) => (
-          <Conversation navigation={navigation} key={index} conversation={conversation} />
+          <Conversation changeConversation={setChangeConversation} navigation={navigation} key={index} conversation={conversation} />
         ))}
       </ScrollView>
     </View>

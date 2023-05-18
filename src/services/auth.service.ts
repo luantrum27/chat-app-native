@@ -54,7 +54,7 @@ export const signup = async ({username, password, email}: IUserSignUp, navigatio
 export const logout = async (
 ) => {
   try {
-    const refreshToken = getRefreshToken();
+    const refreshToken = await getRefreshToken();
     await apiRequest.post('auth/logout', { refreshToken });
   } catch (err) {
     console.log(err);
